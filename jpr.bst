@@ -1,5 +1,6 @@
 %$$$ jpr.bst (02.27.2013)
 %$$$ update (07.05.2013)
+%$$$ update (11.17.2014) // Tweaks made by Allan Dafoe (Yale University).
 % This is a fairly crude hack of newapa.bst to conform with the citation 
 % and bibliography standards of Journal of Peace Research, as of 2012.
 %
@@ -43,6 +44,7 @@ ENTRY
     series
     title
     type
+    URL
     volume
     year
   }
@@ -101,6 +103,13 @@ FUNCTION {output.nonnull}
     }
   if$
   s
+}
+
+FUNCTION {write.url}
+{ URL empty$
+    { skip$ }
+    { "\newline\harvardurl{" URL * "}" * write$ newline$ }
+  if$
 }
 
 FUNCTION {special.output.nonnull}
@@ -829,6 +838,7 @@ FUNCTION {article}
   new.block
   note output
   fin.entry
+  write.url
 }
 
 FUNCTION {book}
@@ -853,8 +863,9 @@ FUNCTION {book}
       new.block
       format.number.series output
       new.sentence
-      publisher "publisher" output.check.colon
       address output
+      publisher "publisher" output.check.colon
+
     }
     { new.block
       format.book.crossref output.nonnull
@@ -940,8 +951,8 @@ FUNCTION {incollection}
 
  %   format.chapter.pages special.output
     new.sentence
-    publisher "publisher" output.check.colon
     address output
+    publisher "publisher" output.check.colon
 format.chapter.pages special.output
   }
   { format.incoll.inproc.crossref 
@@ -1110,6 +1121,7 @@ FUNCTION {unpublished}
   new.block
   note "note" output.check
   fin.entry
+  write.url
 }
 
 FUNCTION {default.type} { misc }
