@@ -19,7 +19,7 @@
 % Users of this *.bst file may find their own issues. I cannot offer total support for it. That said, 
 % I am willing to listen to feedback. You can e-mail me at svmille@clemson.edu.
 %
-% If you find this *.bst file useful, please feel free to dissemnate it. I ask only for attribution
+% If you find this *.bst file useful, please feel free to disseminate it. I ask only for attribution
 % under a creative commons license in return.
 
 
