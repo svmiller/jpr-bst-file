@@ -69,8 +69,8 @@ FUNCTION {format.grepmi}
 
        ss #1 "{vv~}{ll}{, jj}{, ff}" format.name$
     }{ 
-        fm #1 "{ff }{l}" format.name$ 'tt :=   %% And store the result in tt
-        tt text.length$ #1 > { 
+        fm #1 "{ff }{ l.}" format.name$ 'tt :=   %% And store the result in tt
+        tt text.length$ #3 > { 
             tt 
             }{ 
             fm
@@ -106,9 +106,9 @@ FUNCTION {output.nonnull}
 }
 
 FUNCTION {write.url}
-{ URL empty$
+{ url empty$
     { skip$ }
-    { "\newline\harvardurl{" URL * "}" * write$ newline$ }
+    { "({" url * "})" * write$}
   if$
 }
 
@@ -358,7 +358,7 @@ FUNCTION {format.names}
       format.grepmi 't :=
       nameptr #1 >
         { namesleft #1 >
-              { ", " * t * }
+              { "; " * t * }
                { numnames #2 >
                     { "" * }
                     'skip$
@@ -414,6 +414,7 @@ FUNCTION {format.names.fml}
   while$
 }
 
+
 FUNCTION {format.rem.names}
 { 's :=
   'f :=
@@ -426,7 +427,7 @@ FUNCTION {format.rem.names}
       #1 f format.name$ 't :=    
       nameptr #1 >
     { namesleft #1 >
-        { "; " * t * }
+        { ", " * t * }
         { t "others" =
         { " et~al." * }
         { "  \& " * t * }
@@ -466,7 +467,7 @@ FUNCTION {format.editors.fml}
     { "" }
     { editor format.names.fml
       editor num.names$ #1 >
-    { " (eds.)" * }
+    { " (eds)" * }
     { " (ed.)" * }
       if$
     }
@@ -478,7 +479,7 @@ FUNCTION {format.editors}
     { "" }
     { editor format.names
       editor num.names$ #1 >
-    { " (eds.)" * }
+    { " (eds)" * }
     { " (ed.)" * }
       if$
     }
@@ -490,7 +491,7 @@ FUNCTION {format.editors.dot}
     { "" }
     { editor format.names
       editor num.names$ #1 >
-    { " (eds.)." * }
+    { " (eds)." * }
     { " (ed.)." * }
       if$
     }
@@ -643,6 +644,40 @@ FUNCTION {multi.page.check}
     }
   while$
   multiresult
+}
+
+FUNCTION {format.org.or.pub}
+{ 't :=
+  ""
+  address empty$ t empty$ and
+    'skip$
+    {
+      address "address" *
+      t empty$
+        'skip$
+        { address empty$
+            'skip$
+            { ": " * }
+          if$
+          t *
+        }
+      if$
+    }
+  if$
+}
+
+FUNCTION {format.url}
+{
+  url
+  duplicate$ empty$
+    { pop$ "" }
+    { "({" swap$ * "})" * }
+  if$
+}
+
+FUNCTION {format.publisher.address}
+{ publisher "publisher" 
+ format.org.or.pub
 }
 
 FUNCTION {format.pages}
@@ -835,10 +870,10 @@ FUNCTION {article}
       format.pages output
     }
   if$
-  new.block
+  %new.block
   note output
+  format.url output
   fin.entry
-  write.url
 }
 
 FUNCTION {book}
@@ -872,8 +907,9 @@ FUNCTION {book}
     }
   if$
 %  format.edition output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -888,8 +924,9 @@ FUNCTION {booklet}
   new.block
   howpublished output
   address output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -927,8 +964,9 @@ FUNCTION {inbook}
     }
   if$
 %  format.edition output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -953,6 +991,7 @@ FUNCTION {incollection}
     new.sentence
     address output
     publisher "publisher" output.check.colon
+    before.all 'output.state := %% added
 format.chapter.pages special.output
   }
   { format.incoll.inproc.crossref 
@@ -960,8 +999,9 @@ format.chapter.pages special.output
     format.chapter.pages output
   }
   if$
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -990,8 +1030,9 @@ FUNCTION {inproceedings}
       format.pages output
     }
   if$
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1013,8 +1054,9 @@ FUNCTION {manual}
 %  ":" output
 %  organization output
 %  format.edition output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1031,8 +1073,9 @@ FUNCTION {mastersthesis}
   "Master's thesis" format.thesis.type output.nonnull
   school "school" output.check
   address output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1045,8 +1088,9 @@ FUNCTION {misc}
   format.title output
   new.block
   howpublished output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1063,8 +1107,9 @@ FUNCTION {phdthesis}
   "PhD thesis" format.thesis.type output.nonnull
   school "school" output.check
   address output
-  new.block
+  %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1085,8 +1130,9 @@ FUNCTION {proceedings}
   new.sentence
   organization output
   publisher output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1104,8 +1150,9 @@ FUNCTION {techreport}
   institution 
   "institution" output.check
   address output
-  new.block
+ %new.block
   note output
+  format.url output
   fin.entry
 }
 
@@ -1118,10 +1165,10 @@ FUNCTION {unpublished}
   %new.block
   format.title 
   "title" output.check
-  new.block
-  note "note" output.check
+ %new.block
+  note output
+  format.url output
   fin.entry
-  write.url
 }
 
 FUNCTION {default.type} { misc }
@@ -1255,23 +1302,59 @@ FUNCTION {my.full.label}
   u2        
 }
 
+FUNCTION {space.word}
+{ " " swap$ * " " * }
+
+FUNCTION {bbl.and}
+{ "and"}
+
+
+FUNCTION {bbl.etal}
+{ "et~al." }
+
 FUNCTION {format.lab.names}
-{ 's :=                             
-  s #1 "{vv~}{ll}" format.name$        
-  s num.names$ duplicate$
-  #2 >                                
-     { pop$ " et~al." * }            
-     { #2 <
-          'skip$
-          { s #2 "{ff }{vv }{ll}{ jj}" format.name$ "others" =
-                { "et~al. " * }
-%               { " and " * s #2 "{vv~}{ll}" format.name$ * }
-                { " \& " * s #2 "{vv~}{ll}" format.name$ * }
-             if$
+{'s :=
+ "" 't :=
+  #1 'nameptr :=
+  s num.names$ 'numnames :=
+  numnames 'namesleft :=
+    { namesleft #0 > }
+    { s nameptr
+      "{vv~}{ll}" format.name$
+      't :=
+      nameptr #1 >
+        {
+          nameptr #2 =
+          numnames #3 > and
+            { "others" 't :=
+              #1 'namesleft := }
+            'skip$
+          if$
+          namesleft #1 >
+            { ", " * t * }
+            {
+              s nameptr "{ll}" format.name$ duplicate$ "others" =
+                { 't := }
+                { pop$ }
+              if$
+              t "others" =
+                {
+                  " " * bbl.etal *
+                }
+                {
+                  "\&"
+                  space.word * t *
+                }
+              if$
             }
-       if$
-     }
-  if$
+          if$
+        }
+        't
+      if$
+      nameptr #1 + 'nameptr :=
+      namesleft #1 - 'namesleft :=
+    }
+  while$
 }
 
 FUNCTION {author.key.label}
@@ -1519,4 +1602,3 @@ FUNCTION {end.bib}
 }
 
 EXECUTE {end.bib}
-

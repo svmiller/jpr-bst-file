@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage[round]{natbib}
+
+
+\begin{document}
+
+To achieve incentive compatibility, the auction winner has to pay the second highest price \cite{Vickrey1961}.
+
+A good introduction to graph algorithms can be found in \cite{Golumbic2004}. I think you could also cite \cite{Grandstrand2004}. 
+
+\bibliographystyle{test_jpr}
+\bibliography{my_test}
+
+\end{document}

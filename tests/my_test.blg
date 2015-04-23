@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2014/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: my_test.aux
+The style file: test_jpr.bst
+Database file #1: my_test.bib
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 3 entries,
+            3041 wiz_defined-function locations,
+            662 strings with 5363 characters,
+and the built_in function-call counts, 1661 in all, are:
+= -- 130
+> -- 91
+< -- 1
++ -- 29
+- -- 32
+* -- 164
+:= -- 336
+add.period$ -- 7
+call.type$ -- 3
+change.case$ -- 25
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 60
+empty$ -- 107
+format.name$ -- 66
+if$ -- 294
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 4
+newline$ -- 15
+num.names$ -- 14
+pop$ -- 28
+preamble$ -- 1
+purify$ -- 29
+quote$ -- 0
+skip$ -- 43
+stack$ -- 0
+substring$ -- 74
+swap$ -- 17
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 0
+while$ -- 18
+width$ -- 0
+write$ -- 41
