@@ -1,8 +1,6 @@
 %$$$ jpr.bst (02.27.2013)
 %$$$ update (07.05.2013)
-%$$$ update (11.17.2014) // Tweaks made by Allan Dafoe (Yale University).
-% This is a fairly crude hack of newapa.bst to conform with the citation 
-% and bibliography standards of Journal of Peace Research, as of 2012.
+%$$$ update (11.17.2014) // Tweaks made by Allan Dafoe and Baobao Zhang (Yale University).
 %
 % This *.bst file will allow the following JPR citations.
 % 1) ARTICLE
@@ -34,7 +32,7 @@ ENTRY
     institution
     journal
     key
-%   month
+    month
     note
     number
     organization
@@ -224,6 +222,7 @@ FUNCTION {output.year.check}
      }
   if$
 }
+
 
 FUNCTION {output.bibitem}
 { newline$
@@ -454,6 +453,16 @@ FUNCTION {format.authors}
   if$
 }
 
+FUNCTION {format.authors.2}
+{ author empty$
+    { "" }
+    { author #1 "{ff }{ll}" format.name$
+      format.grepmi                                    
+      #1 "{ff }{ll}" format.name$          
+      "{ff }{vv~}{ll}{, jj}" author format.rem.names
+    }
+  if$
+}
 
 FUNCTION {format.key}
 { empty$
@@ -876,6 +885,24 @@ FUNCTION {article}
   fin.entry
 }
 
+FUNCTION {articlenews}
+{ output.bibitem
+  format.authors 
+  "author" output.check
+  author format.key output          % added
+  output.year.check              % added
+%  new.block
+  format.title 
+  "title" output.check
+  new.block
+  journal emphasize "journal" output.check 
+  %new.block
+  month output
+  note output
+  format.url output
+  fin.entry
+}
+
 FUNCTION {book}
 { output.bibitem
   author empty$
@@ -1083,11 +1110,11 @@ FUNCTION {misc}
 { output.bibitem
   format.authors output
   author format.key output            % added
-  output.year.check                   % added
-  title howpublished new.block.checkb
+   output.year.check
+  %title howpublished new.block.checkb
   format.title output
-  new.block
-  howpublished output
+  %new.block
+  %howpublished output
  %new.block
   note output
   format.url output
@@ -1142,15 +1169,13 @@ FUNCTION {techreport}
   "author" output.check
   author format.key output             % added
   output.year.check                    % added
-  new.block
   format.title 
   "title" output.check
   new.block
   format.tr.number output.nonnull
+  new.block
   institution 
   "institution" output.check
-  address output
- %new.block
   note output
   format.url output
   fin.entry
